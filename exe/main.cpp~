@@ -1,0 +1,13 @@
+#inlcude <jeho/network/req_res.hpp>
+
+using func_request = func_request<load_stock_base> ;
+using session = req_session<func_request>;
+using server  = server<session>;
+const std::string address ;
+const std::string port;
+
+int main(int argc , char* argv[])
+{
+  server server(address , port);
+  return 1;
+}
