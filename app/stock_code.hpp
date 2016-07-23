@@ -9,16 +9,27 @@ struct stock_code
 {
   std::string code ;
   std::string  full_code;
+  std::string name;
   int  market;
   int  kospi_200;
+  
+  template<typename Archive>
+  void serialize(Archive & ar, unsigned int version)
+  {
+	  ar & code;
+	  ar & full_code;
+	  ar & name;
+	  ar & market;
+	  ar & kospi_200;
+  }
 };
 
 BOOST_FUSION_ADAPT_STRUCT(
 			  stock_code ,
 			  (code , code)
-			  (std::string , code)
 			  (std::string , full_code)
-			  (int , market)
+			  (std::string , name)
+	          (int , market)
 			  (int , kospi_200)
 			  )
 
