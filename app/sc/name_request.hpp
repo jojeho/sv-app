@@ -1,25 +1,26 @@
 #pragma once
-
-#include <boost/optional.hpp>
+#include <exception>
+//#include <boost/optional.hpp>
 
 template<typename Funcs>
-		struct name_request
-		{
-			boost::optional<std::string> operator()(std::vector<char> const& data)
-			{
-				auto it = std::find(data.begin(), data.end(), ':');
-				if (it == data.end())
-				{
-					std::cout << "no func name";
-					throw std::exception("no func name");
-				}
+struct name_request
+{
+  boost::optional<std::string> operator()(std::vector<char> const& data)
+  {
+    auto it = std::find(data.begin(), data.end(), ':');
+    if (it == data.end())
+      {
+	std::cout << "no func name";
+	std::string message ="no func name";
+	//throw std::exception(message.c_str());
+      }
 
-				std::string func_name = std::string(data.begin(), it);
-			    it++;
-			    std::string text(it, data.end());
-				return Funcs()(func_name, text);
-			}
-		};
+    std::string func_name = std::string(data.begin(), it);
+    it++;
+    std::string text(it, data.end());
+    return Funcs()(func_name, text);
+  }
+};
 
 namespace req_list {
 
