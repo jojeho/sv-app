@@ -1,7 +1,9 @@
 #pragma once
+#include <chrono>
+#include <ctime>
+
 std::chrono::system_clock::time_point to_time(long day, long time)
 {
-
 	std::tm timeinfo = std::tm();
 
 	timeinfo.tm_year = day / 10000;
@@ -29,4 +31,13 @@ std::chrono::system_clock::time_point to_time(long day, long time)
 
 	time_t tt = mktime(&timeinfo);
 	return std::chrono::system_clock::from_time_t(tt);
+}
+
+long to_yymmdd(std::chrono::system_clock::time_point const&now)
+{
+	struct tm t;
+	auto tp = now.time_since_epoch();
+	auto tt = std::chrono::system_clock::to_time_t(now);
+	localtime_s(&t, &tt);
+	return  (t.tm_year + 1900) * 10000 + (t.tm_mon + 1) * 100 + t.tm_mday;
 }

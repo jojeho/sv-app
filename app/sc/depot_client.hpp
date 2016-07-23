@@ -10,7 +10,7 @@
 #include "../stock_base.hpp"
 #include "../stock_code.hpp"
 
-struct client
+struct depot_client
 {
   boost::asio::io_service is;
 

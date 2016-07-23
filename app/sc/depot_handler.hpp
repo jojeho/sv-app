@@ -3,7 +3,7 @@
 //#include <boost/optional.hpp>
 
 template<typename Funcs>
-struct depot_request
+struct depot_handler
 {
   boost::optional<std::string> operator()(std::vector<char> const& data)
   {
