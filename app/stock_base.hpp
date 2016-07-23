@@ -17,6 +17,7 @@ struct stock_base {
   template<typename Archive>
   void serialize(Archive & ar, unsigned int version)
   {
+    ar & code ;
     ar & low_price;
     ar & high_price;
     ar & start_price;

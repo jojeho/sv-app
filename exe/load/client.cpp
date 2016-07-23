@@ -1,14 +1,10 @@
 #include "config.hpp"
-
-#include <app/load_save.hpp>
-
+#include <app/command.hpp>
 using namespace jeho::network;
-
+//load_stock_code();
 int main(int argc , char* argv[])
 {
-
-  load_stock_code();
-  //load_save();
+  load_save();
   return 1;
 }
 

@@ -20,9 +20,6 @@ LINK_LIBRARIES(pthread)
 LINK_LIBRARIES(boost_thread)
 LINK_LIBRARIES(boost_serialization)
 
-
-
-
 add_executable(client  client.cpp)
 
 #add_executable(t  test.cpp)
