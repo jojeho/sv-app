@@ -1,4 +1,4 @@
-#pragma noce
+#pragma once
 #include <string>
 #include "config.hpp"
 #include <boost/fusion/adapted/struct/adapt_struct.hpp>
@@ -9,7 +9,7 @@ struct stock_code
 {
   std::string code ;
   std::string  full_code;
-  std::string name;
+  //std::string name;
   int  market;
   int  kospi_200;
   
@@ -18,7 +18,7 @@ struct stock_code
   {
 	  ar & code;
 	  ar & full_code;
-	  ar & name;
+	  //ar & name;
 	  ar & market;
 	  ar & kospi_200;
   }
@@ -28,8 +28,8 @@ BOOST_FUSION_ADAPT_STRUCT(
 			  stock_code ,
 			  (code , code)
 			  (std::string , full_code)
-			  (std::string , name)
-	          (int , market)
+			  //(std::string , name)
+			  (int , market)
 			  (int , kospi_200)
 			  )
 

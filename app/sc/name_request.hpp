@@ -2,8 +2,7 @@
 
 #include <boost/optional.hpp>
 
-
-		template<typename Funcs>
+template<typename Funcs>
 		struct name_request
 		{
 			boost::optional<std::string> operator()(std::vector<char> const& data)
@@ -22,11 +21,11 @@
 			}
 		};
 
-		namespace req_list {
+namespace req_list {
 
-			const std::string select_stock_base = "select_stock_base";
-			const std::string select_stock_code = "seelct_stock_code";
+  const std::string select_stock_base = "select_stock_base";
+  const std::string select_stock_code = "select_stock_code";
 
-	}
+}
 
 	

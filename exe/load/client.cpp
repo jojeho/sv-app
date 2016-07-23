@@ -6,6 +6,9 @@ using namespace jeho::network;
 
 int main(int argc , char* argv[])
 {
-  load_save();
+
+  load_stock_code();
+  //load_save();
   return 1;
 }
+
