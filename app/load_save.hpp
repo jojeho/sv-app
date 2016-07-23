@@ -11,7 +11,6 @@
 std::list<code> kospi_200()
 {
   std::cout<<"load kospi "<<std::endl;
-
   
   db::query q("all");
   auto s =db::selector<stock_code>(db::connection("common"), q);
@@ -22,6 +21,17 @@ std::list<code> kospi_200()
 		{
 		});
   return result;
+}
+
+void load_stock_code()
+{
+  
+  client cl;
+  auto codes =cl.select_stock_code();
+  for(auto c: codes)
+    {
+      std::cout<<"code "<<c.code<<std::endl;
+    }
 }
 
 void load_save()
