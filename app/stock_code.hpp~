@@ -1,0 +1,12 @@
+#pragma noce
+#include <string>
+
+struct stock_code
+{
+  code code ;
+  std::string ,code
+  std::string , full_code
+  int , market
+  int , kospi_200
+};
+
