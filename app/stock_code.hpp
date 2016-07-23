@@ -8,7 +8,7 @@
 struct stock_code
 {
   std::string code ;
-  std::string  full_code;
+  //std::string  full_code;
   //std::string name;
   int  market;
   int  kospi_200;
@@ -17,7 +17,7 @@ struct stock_code
   void serialize(Archive & ar, unsigned int version)
   {
 	  ar & code;
-	  ar & full_code;
+	  //ar & full_code;
 	  //ar & name;
 	  ar & market;
 	  ar & kospi_200;
@@ -27,7 +27,7 @@ struct stock_code
 BOOST_FUSION_ADAPT_STRUCT(
 			  stock_code ,
 			  (code , code)
-			  (std::string , full_code)
+			  //(std::string , full_code)
 			  //(std::string , name)
 			  (int , market)
 			  (int , kospi_200)

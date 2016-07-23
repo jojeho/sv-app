@@ -16,8 +16,13 @@ std::string out(T const&t)
 template<typename T>
 T in(std::string const& text)
 {
-  std::istringstream s(text);
+  std::stringstream s(text);
+  std::cout<<" size "<<s.str().size()<<std::endl;
+  std::cout<<s.str()<<std::endl;
   boost::archive::binary_iarchive ar(s);
+  
+  std::cout<<text.size()<<std::endl;
+
   T t;
   ar >> t;
   return t;
