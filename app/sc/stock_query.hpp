@@ -2,7 +2,6 @@
 #include <chrono>
 #include <string>
 
-namespace daishin{
 
 struct stock_query
 {
@@ -18,4 +17,3 @@ struct stock_query
 	}
 };
 
-}
