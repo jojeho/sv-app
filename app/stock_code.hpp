@@ -7,8 +7,7 @@
 
 struct stock_code
 {
-  code code ;
-  std::string code;
+  std::string code ;
   std::string  full_code;
   int  market;
   int  kospi_200;
@@ -22,3 +21,4 @@ BOOST_FUSION_ADAPT_STRUCT(
 			  (int , market)
 			  (int , kospi_200)
 			  )
+
