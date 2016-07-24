@@ -1,8 +1,0 @@
-#include "config.hpp"
-#include <app/command.hpp>
-int main(int argc , char* argv[])
-{
-  load_save();
-  return 1;
-}
-
