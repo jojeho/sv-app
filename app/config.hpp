@@ -3,12 +3,12 @@
 #include <string>
 #include <boost/date_time.hpp>
 
-using ptime = std::chrono::system_clock::time_point;
+//using ptime = std::chrono::system_clock::time_point;
 using code = std::string;
 using date = boost::gregorian::date;
 
 const std::string  db_connection_string ="mongodb://localhost:27017";
-const std::string  db_name = "test";
+const std::string  common_db = "common";
 
 
 static std::string load_host()  

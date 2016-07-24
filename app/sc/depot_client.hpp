@@ -1,8 +1,8 @@
 #pragma once
 #include "../config.hpp"
 #include <boost/lexical_cast.hpp>
-#include <jeho/network/req_client.hpp>
-#include "depot_request.hpp"
+#include <jeho/network/req.hpp>
+#include "depot_handler.hpp"
 #include "serialize.hpp"
 #include "stock_query.hpp"
 
@@ -19,7 +19,7 @@ struct depot_client
   {
     auto s = out<Arg>(arg);
     jeho::network::connection con(load_host(), load_port());
-    jeho::network::req_res_client c(con,is);
+    jeho::network::req::client c(con,is);
     s = func_name +":" + s;
     auto b = c.request(s);
     return  in<Result>(b);
@@ -30,7 +30,7 @@ struct depot_client
   {
     std::cout<<load_host()<<" "<<load_port()<<std::endl;
     jeho::network::connection con(load_host(), load_port());
-    jeho::network::req_res_client c(con,is);
+    jeho::network::req::client c(con,is);
     auto s = func_name + ":" ;
     auto b = c.request(s);
     //std::cout<<"result "<<b<<std::endl;
@@ -59,3 +59,19 @@ struct depot_client
 };
 
 
+namespace depot {
+
+  std::list<stock_base> select_stock_base(std::string const& code
+					  ,std::string const& begin
+					  ,std::string const& end)
+  {
+    depot_client cl;
+    return cl.select_stock_base(code , begin, end);
+  }
+
+  std::list<stock_code> select_stock_code()
+  {
+    depot_client cl;
+    return cl.select_stock_code();
+  }
+}

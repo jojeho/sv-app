@@ -1,32 +1,35 @@
 #pragma once
-#include <jeho/db/req_mongo.hpp>
+#include <jeho/db/mongo.hpp>
 #include "config.hpp"
-
+#include "stock_code.hpp"
 namespace db {
 
-  struct connection : public mongo::connection
+  std::shared_ptr<mongo::connection> connection(std::string db_name)
   {
-    connection()
-      :mongo::connection(db_connection_string
-			 ,"test"){}
-	  
-    connection(std::string const& db)
-      :mongo::connection(db_connection_string
-			 ,db){}
-  };
+    return std::make_shared<mongo::connection>(db_connection_string,db_name);
+  }
 
-  struct code_connection : public mongo::connection
+  std::shared_ptr<mongo::connection> code_connection()
   {
-    code_connection()
-      :mongo::connection(db_connection_string
-			 ,"stock"){}
-  };
-
+    return std::make_shared<mongo::connection>(db_connection_string,"stock");
+  }
 
   using query = jeho::db::query;
 
   template<typename T>
-  using inserter = mongo::req_up<mongo::insert, T , jeho::db::query>;
+  struct inserter : public mongo::circle<mongo::insert, T , jeho::db::query>
+  {
+    typedef   mongo::circle<mongo::insert, T , jeho::db::query> base;
+    inserter(std::shared_ptr<mongo::connection> const& con)
+      :base(con,query(""))
+    {}
+
+    inserter(std::shared_ptr<mongo::connection> const& con , stock_code const&c)
+      :base(con,c.code,query(""))
+    {}
+
+  };
+
 
   template<typename T>
   using selector  = mongo::cursor<T> ;
