@@ -2,6 +2,21 @@
 #include <chrono>
 #include <ctime>
 
+std::chrono::system_clock::time_point now()
+{
+	return std::chrono::system_clock::now();
+}
+
+std::string to_string(std::chrono::system_clock::time_point const&start)
+{
+	std::time_t now_c = std::chrono::system_clock::to_time_t(start);
+	std::tm ptm;
+	gmtime_s(&ptm, &now_c);
+	std::stringstream out;
+	out << ptm.tm_hour << "time:" << ptm.tm_min << " min:" << ptm.tm_sec << " sec:";
+	return out.str();
+}
+
 std::chrono::system_clock::time_point to_time(long day, long time)
 {
 	std::tm timeinfo = std::tm();
@@ -41,3 +56,4 @@ long to_yymmdd(std::chrono::system_clock::time_point const&now)
 	localtime_s(&t, &tt);
 	return  (t.tm_year + 1900) * 10000 + (t.tm_mon + 1) * 100 + t.tm_mday;
 }
+

@@ -30,7 +30,7 @@ struct depot_client
   {
     std::cout<<load_host()<<" "<<load_port()<<std::endl;
     jeho::network::connection con(load_host(), load_port());
-    jeho::network::req::client c(con,is);
+	jeho::network::req::client c(con,is);
     auto s = func_name + ":" ;
     auto b = c.request(s);
     //std::cout<<"result "<<b<<std::endl;
