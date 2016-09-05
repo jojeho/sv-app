@@ -40,3 +40,13 @@ BOOST_FUSION_ADAPT_STRUCT(
 			  (long , end_price)
 			  (long , volume)
 			  (long , money))
+
+const auto bind_end_price_log=[](auto const&v)
+{
+  return std::log(v.end_price);
+};
+
+const auto bind_end_price=[](auto const&v)
+{
+  return v.end_price;
+};

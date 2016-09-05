@@ -12,14 +12,15 @@
 
 struct depot_client
 {
-  boost::asio::io_service is;
-
+  std::shared_ptr<jeho::network::connection> con;
+  depot_client():con(std::make_shared<jeho::network::connection>(load_host() , load_port()))
+  {}
+  
   template<typename Arg, typename Result>
   Result request(std::string const& func_name, Arg const& arg)
   {
     auto s = out<Arg>(arg);
-    jeho::network::connection con(load_host(), load_port());
-    jeho::network::req::client c(con,is);
+    jeho::network::req::client c(con);
     s = func_name +":" + s;
     auto b = c.request(s);
     return  in<Result>(b);
@@ -29,8 +30,7 @@ struct depot_client
   Result request_no_arg(std::string const& func_name)
   {
     std::cout<<load_host()<<" "<<load_port()<<std::endl;
-    jeho::network::connection con(load_host(), load_port());
-	jeho::network::req::client c(con,is);
+    jeho::network::req::client c(con);
     auto s = func_name + ":" ;
     auto b = c.request(s);
     //std::cout<<"result "<<b<<std::endl;
@@ -51,6 +51,19 @@ struct depot_client
     return request<stock_query, std::list<stock_base>>(req_list::select_stock_base, sq);
   }
 
+  std::list<stock_base> select_stock_base_day(std::string const& code, std::string const& begin, std::string const& end)
+  {
+    std::cout << "select stock base day run " << std::endl;
+    stock_query sq;
+    sq.begin = boost::lexical_cast<long>(begin);
+    sq.end = boost::lexical_cast<long>(end);
+    sq.code = code;
+
+    std::cout << " query  code " << sq.code << " begin " << sq.begin << " " << sq.end << std::endl;
+    return request<stock_query, std::list<stock_base>>(req_list::select_stock_base_day, sq);
+  }
+
+  
   std::list<stock_code> select_stock_code()
   {
     std::cout << "select stock code run " << std::endl;
@@ -69,6 +82,16 @@ namespace depot {
     return cl.select_stock_base(code , begin, end);
   }
 
+
+  std::list<stock_base> select_stock_base_day(std::string const& code
+					      ,std::string const& begin
+					      ,std::string const& end)
+  {
+    depot_client cl;
+    return cl.select_stock_base_day(code , begin, end);
+  }
+
+  
   std::list<stock_code> select_stock_code()
   {
     depot_client cl;
