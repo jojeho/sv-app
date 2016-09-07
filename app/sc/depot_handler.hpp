@@ -27,6 +27,7 @@ namespace req_list {
   const std::string select_stock_base = "select_stock_base";
   const std::string select_stock_code = "select_stock_code";
   const std::string select_stock_base_day = "select_stock_base_day";
+  const std::string select_stock_base_future_day = "select_stock_base_future_day";
 
 }
 
