@@ -14,6 +14,7 @@ struct stock_base {
   long volume;
   long money;
   long day_end_price;
+  long last_day;
 
   template<typename Archive>
   void serialize(Archive & ar, unsigned int version)
@@ -28,6 +29,7 @@ struct stock_base {
     ar & day;
     ar & time;
     ar & day_end_price;
+	ar & last_day;
   }
 };
 
@@ -43,6 +45,7 @@ BOOST_FUSION_ADAPT_STRUCT(
 			  (long , volume)
 			  (long , money)
 			  (long , day_end_price)
+	(long , last_day)
 			  )
 
 
