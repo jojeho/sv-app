@@ -94,12 +94,12 @@ struct depot_client
 
 namespace depot {
 
-  std::list<stock_base> select_stock_base(std::string const& code
+  std::list<stock_base> select_stock_min(std::string const& code
 					  ,std::string const& begin
 					  ,std::string const& end)
   {
     depot_client cl;
-    return cl.select_stock_base(code , begin, end);
+    return cl.select_stock_min(code , begin, end);
   }
 
 
