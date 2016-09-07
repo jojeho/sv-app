@@ -11,4 +11,6 @@ BOOST_HANA_ADAPT_STRUCT(stock_base ,
 			low_price ,
 			end_price,
 			volume ,
-			money);
+			money,
+			day_end_price
+			);

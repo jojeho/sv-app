@@ -13,6 +13,7 @@ struct stock_base {
   long end_price;
   long volume;
   long money;
+  long day_end_price;
 
   template<typename Archive>
   void serialize(Archive & ar, unsigned int version)
@@ -26,6 +27,7 @@ struct stock_base {
     ar & money;
     ar & day;
     ar & time;
+    ar & day_end_price;
   }
 };
 
@@ -39,7 +41,10 @@ BOOST_FUSION_ADAPT_STRUCT(
 			  (long , low_price)
 			  (long , end_price)
 			  (long , volume)
-			  (long , money))
+			  (long , money)
+			  (long , day_end_price)
+			  )
+
 
 const auto bind_end_price_log=[](auto const&v)
 {

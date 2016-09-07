@@ -9,7 +9,6 @@
 #include "stock_base_hana.hpp"
 #include "db_command.hpp"
 
-
 void load_stock_code()
 {
   auto codes =depot::select_stock_code();
@@ -18,6 +17,25 @@ void load_stock_code()
   //auto in  = db::inserter<stock_code>(con);
   //std::copy(std::begin(codes) , std::end(codes) , std::begin(in));
 }
+
+std::list<stock_code> load_future_code()
+{
+  auto codes =depot::select_future_code();
+  std::cout<<" insert code size "<<codes.size()<<std::endl;
+
+  for(auto c : codes)
+    {
+      std::cout<<c.code<<" "<<c.name
+	       <<" "<<c.full_code
+	       <<std::endl;
+    }
+  
+  return codes;
+  //auto con = db::connection(common_db);
+  //auto in  = db::inserter<stock_code>(con);
+  //std::copy(std::begin(codes) , std::end(codes) , std::begin(in));
+}
+
 
 
 ////A0033920 20160801
@@ -51,9 +69,9 @@ auto const load_day=[](auto begin  , auto end,auto code)
 	     <<" day "<<begin<<" "<<end
 	     <<std::endl;
     auto sbs =depot::select_stock_base_day(code.code, begin, end);
-    auto con = db::code_connection(code);
+    auto con = db::code_connection(code,day_db);
     db::inserter<stock_base> in(con);
-    std::copy(std::begin(sbs) ,std::end(sbs) , std::begin(in));
+    //std::copy(std::begin(sbs) ,std::end(sbs) , std::begin(in));
     using namespace std::chrono_literals;
     std::this_thread::sleep_for(3s);
     //count++;
@@ -65,6 +83,35 @@ auto const load_day=[](auto begin  , auto end,auto code)
     }
 
 };
+
+auto const load_day_futrue=[](auto begin  , auto end,auto code)
+{
+  try{
+    std::cout<<"current code "<<code.code
+	     <<" day "<<begin<<" "<<end
+	     <<std::endl;
+    auto sbs =depot::select_stock_base_future_day(code.code, begin, end);
+
+    for(auto b :sbs)
+      {
+	std::cout<<b.end_price<<std::endl;
+      }
+    
+    auto con = db::code_connection(code,day_db);
+    //db::inserter<stock_base> in(con);
+    //std::copy(std::begin(sbs) ,std::end(sbs) , std::begin(in));
+    using namespace std::chrono_literals;
+    std::this_thread::sleep_for(3s);
+    //count++;
+  }catch(std::exception & e)
+    {
+      std::cout<<"fail to code "<<code.code<<" continue"<<std::endl;
+      using namespace std::chrono_literals;
+      std::this_thread::sleep_for(3s);
+    }
+
+};
+
 
 auto load_code=[](auto f_day, auto codes)
 {

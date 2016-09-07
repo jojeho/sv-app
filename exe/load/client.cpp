@@ -41,11 +41,44 @@ void copy()
     }
 }
 
+void day_load()
+{
+  std::string f_day = "20160101";
+  std::string l_day = "20160831";
+  auto codes = db::select_kospi_200();
+  for(auto code : codes)
+    {
+      load_day(f_day ,l_day ,code);
+      using namespace std::chrono_literals ;
+      std::this_thread::sleep_for(3s);
+    }
+  
+}
+
+void day_futrue_load()
+{
+  std::string f_day = "20160701";
+  std::string l_day = "20160722";
+
+  //auto codes = db::select_kospi_200();
+  auto codes = load_future_code();
+  for(auto code : codes)
+    {
+      load_day_futrue(f_day ,l_day ,code);
+      using namespace std::chrono_literals ;
+      std::this_thread::sleep_for(3s);
+    }
+  
+}
+
+
 int main(int argc , char* argv[])
 {
-  copy();
+  //day_load();
+  ////load_future_code();
+  day_futrue_load();
+  //copy();
   //load_save();
-
   //select_stock_base();
   //load_stock_code();
   return 0;

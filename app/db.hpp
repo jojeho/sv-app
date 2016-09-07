@@ -36,6 +36,11 @@ namespace db {
     return std::make_shared<code_con_impl>(db_connection_string , sc.code,db_name);
   }
 
+  std::shared_ptr<code_con_impl> code_connection(code const&sc,std::string db_name)
+  {
+    return std::make_shared<code_con_impl>(db_connection_string , sc,db_name);
+  }
+
   
   std::shared_ptr<code_con_impl> code_connection(code const&sc)
   {

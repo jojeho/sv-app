@@ -10,6 +10,7 @@ using date = boost::gregorian::date;
 const std::string  db_connection_string ="mongodb://localhost:27017";
 const std::string  common_db = "common";
 const std::string  phase_db = "phase";
+const std::string  day_db = "day";
 
 static std::string load_host()  
 {
