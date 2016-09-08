@@ -100,8 +100,6 @@ BOOST_FUSION_ADAPT_STRUCT(
 	(double ,bidr_r)
 	(long, last_day)
 	)
-
-
 const auto bind_end_price_log=[](auto const&v)
 {
   return std::log(v.end_price);
