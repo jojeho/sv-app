@@ -30,5 +30,6 @@ BOOST_HANA_ADAPT_STRUCT(stock::day ,
 			fixed_r,
 			rotate,
 			bid_r,
-			last_day
+			last_day,
+			day_end_price
 			);

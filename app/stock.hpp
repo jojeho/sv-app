@@ -54,6 +54,7 @@ namespace stock {
     double rotate;
     double bid_r;
     long last_day;
+    long day_end_price;
 
     std::string table_name() const
     {
@@ -76,6 +77,7 @@ namespace stock {
       ar & rotate;
       ar & bid_r;
       ar & last_day;
+      ar & day_end_price;
     }
   };
 }
@@ -109,11 +111,19 @@ BOOST_FUSION_ADAPT_STRUCT(
 			  (double, rotate)
 			  (double ,bidr_r)
 			  (long, last_day)
+			  (long , day_end_price)
 			  )
-const auto bind_end_price_log=[](auto const&v)
+
+// const auto bind_end_price_log=[](auto const&v)
+// {
+//   return std::log(v.end_price);
+// };
+
+const auto  bind_from_last_day=[](auto const& v)
 {
-  return std::log(v.end_price);
+  return (v.end_price -  v.day_end_price)/double(v.day_end_price);
 };
+
 
 const auto bind_end_price=[](auto const&v)
 {

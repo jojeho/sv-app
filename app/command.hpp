@@ -78,7 +78,7 @@ auto const load_day=[](auto begin  , auto end,auto code)
       {
 	std::cout<<"no remove"<<std::endl;
       }
-    return ;
+
     auto sbs =depot::select_stock_day(code.code, begin, end);
     db::inserter<stock::day> in(con);
     
