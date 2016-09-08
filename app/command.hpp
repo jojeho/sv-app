@@ -70,7 +70,13 @@ auto const load_day=[](auto begin  , auto end,auto code)
 	     <<" day "<<begin<<" "<<end
 	     <<std::endl;
     auto con = db::code_connection(code,stock_db);
-    db::remove_table<stock::day>(con);
+    try
+      {
+	db::remove_table<stock::day>(con);
+      }catch(std::exception & e)
+      {
+	
+      }
     auto sbs =depot::select_stock_day(code.code, begin, end);
     db::inserter<stock::day> in(con);
     
