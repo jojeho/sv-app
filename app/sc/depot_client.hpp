@@ -39,9 +39,9 @@ struct depot_client
   }
 
   
-  std::list<stock_base> select_stock_base(std::string const& code, std::string const& begin, std::string const& end)
+  std::list<stock_base> select_stock_min(std::string const& code, std::string const& begin, std::string const& end)
   {
-    std::cout << "select stock base run " << std::endl;
+    std::cout << "select stock min run " << std::endl;
     stock_query sq;
     sq.begin = boost::lexical_cast<long>(begin);
     sq.end = boost::lexical_cast<long>(end);
@@ -51,9 +51,9 @@ struct depot_client
     return request<stock_query, std::list<stock_base>>(req_list::select_stock_base, sq);
   }
 
-  std::list<stock_base> select_stock_base_day(std::string const& code, std::string const& begin, std::string const& end)
+  std::list<stock_base> select_stock_day(std::string const& code, std::string const& begin, std::string const& end)
   {
-    std::cout << "select stock base day run " << std::endl;
+    std::cout << "select stock  day run " << std::endl;
     stock_query sq;
     sq.begin = boost::lexical_cast<long>(begin);
     sq.end = boost::lexical_cast<long>(end);
@@ -64,7 +64,7 @@ struct depot_client
   }
 
 
-  std::list<stock_base> select_stock_base_future_day(std::string const& code, std::string const& begin, std::string const& end)
+  std::list<stock_base> select_future_day(std::string const& code, std::string const& begin, std::string const& end)
   {
     std::cout << "select stock base day run " << std::endl;
     stock_query sq;
@@ -108,7 +108,7 @@ namespace depot {
 					      ,std::string const& end)
   {
     depot_client cl;
-    return cl.select_stock_base_day(code , begin, end);
+    return cl.select_stock_day(code , begin, end);
   }
 
   std::list<stock_base> select_stock_base_future_day(std::string const& code
@@ -116,7 +116,7 @@ namespace depot {
 					      ,std::string const& end)
   {
     depot_client cl;
-    return cl.select_stock_base_future_day(code , begin, end);
+    return cl.select_future_day(code , begin, end);
   }
 
   

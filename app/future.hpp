@@ -16,6 +16,10 @@ namespace future {
                 long volume;
                 long money;
                 long day_end_price;
+				long basis;
+				long delta;
+				long gamma;
+				long theta;
 
                 template<typename Archive>
                 void serialize(Archive & ar, unsigned int version)
@@ -30,7 +34,10 @@ namespace future {
                         ar & current_day;
                         ar & time;
                         ar & day_end_price;
-
+						ar & basis;
+						ar & delta;
+						ar & gamma;
+						ar & theta;
                 }
         };
 
