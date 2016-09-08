@@ -45,9 +45,9 @@ namespace stock {
 		long volume;
 		long money;
 		long fixed_day;
-		long fixed_r;
-		long rotate;
-		long bid_r;
+		double fixed_r;
+		double rotate;
+		double bid_r;
 		long last_day;
 
 		template<typename Archive>
@@ -71,33 +71,33 @@ namespace stock {
 }
 
 BOOST_FUSION_ADAPT_STRUCT(
-			  stock::minute,
-			  (code , code)
-			  (long , current_day)
-			  (long , time)
-			  (long , start_price)
-			  (long , high_price)
-			  (long , low_price)
-			  (long , end_price)
-			  (long , volume)
-			  (long , money)
-			  (long , day_end_price)
-			  )
+	stock::minute,
+	(code, code)
+	(long, current_day)
+	(long, time)
+	(long, start_price)
+	(long, high_price)
+	(long, low_price)
+	(long, end_price)
+	(long, volume)
+	(long, money)
+	(long, day_end_price)
+)
 
-	BOOST_FUSION_ADAPT_STRUCT(
-		stock::day,
-		(code, code)
-		(long, current_day)
-		(long, start_price)
-		(long, high_price)
-		(long, low_price)
-		(long, end_price)
-		(long, volume)
-		(long, money)
-		(long, fixed_day)
-		(long ,fixed_r)
-		(long ,rotate)
-		(long ,bidr_r)
+BOOST_FUSION_ADAPT_STRUCT(
+	stock::day,
+	(code, code)
+	(long, current_day)
+	(long, start_price)
+	(long, high_price)
+	(long, low_price)
+	(long, end_price)
+	(long, volume)
+	(long, money)
+	(long, fixed_day)
+	(double, fixed_r)
+	(double, rotate)
+		(double ,bidr_r)
 		(long, last_day)
 	)
 
