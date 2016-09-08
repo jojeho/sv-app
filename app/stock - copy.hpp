@@ -97,8 +97,8 @@ BOOST_FUSION_ADAPT_STRUCT(
 	(long, fixed_day)
 	(double, fixed_r)
 	(double, rotate)
-	(double ,bidr_r)
-	(long, last_day)
+		(double ,bidr_r)
+		(long, last_day)
 	)
 
 
