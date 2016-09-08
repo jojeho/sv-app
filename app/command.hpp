@@ -6,7 +6,8 @@
 #include "sc/depot_client.hpp"
 #include "db.hpp"
 #include "stock_code_hana.hpp"
-#include "stock_base_hana.hpp"
+#include "stock_hana.hpp"
+#include "future_hana.hpp"
 #include "db_command.hpp"
 
 void load_stock_code()
@@ -46,9 +47,9 @@ auto const load=[](auto begin  , auto end,auto code)
     std::cout<<"current code "<<code.code
 	     <<" day "<<begin<<" "<<end
 	     <<std::endl;
-    auto sbs =depot::select_stock_base(code.code, begin, end);
-    auto con = db::code_connection(code);
-    db::inserter<stock_base> in(con);
+    auto sbs =depot::select_stock_min(code.code, begin, end);
+    auto con = db::code_connection(code,stock_db);
+    db::inserter<stock::minute> in(con);
     std::copy(std::begin(sbs) ,std::end(sbs) , std::begin(in));
     using namespace std::chrono_literals;
     std::this_thread::sleep_for(3s);
@@ -65,13 +66,15 @@ auto const load=[](auto begin  , auto end,auto code)
 auto const load_day=[](auto begin  , auto end,auto code)
 {
   try{
-    std::cout<<"current code "<<code.code
+    std::cout<<"current code remove and create"<<code.code
 	     <<" day "<<begin<<" "<<end
 	     <<std::endl;
-    auto sbs =depot::select_stock_base_day(code.code, begin, end);
-    auto con = db::code_connection(code,day_db);
-    db::inserter<stock_base> in(con);
-    //std::copy(std::begin(sbs) ,std::end(sbs) , std::begin(in));
+    auto con = db::code_connection(code,stock_db);
+    db::remove_table<stock::day>(con);
+    auto sbs =depot::select_stock_day(code.code, begin, end);
+    db::inserter<stock::day> in(con);
+    
+    std::copy(std::begin(sbs) ,std::end(sbs) , std::begin(in));
     using namespace std::chrono_literals;
     std::this_thread::sleep_for(3s);
     //count++;
@@ -90,16 +93,13 @@ auto const load_day_futrue=[](auto begin  , auto end,auto code)
     std::cout<<"current code "<<code.code
 	     <<" day "<<begin<<" "<<end
 	     <<std::endl;
-    auto sbs =depot::select_stock_base_future_day(code.code, begin, end);
+    auto con = db::code_connection(code,future_db);
+    //db::remove_table<future::day>(con);
 
-    for(auto b :sbs)
-      {
-	std::cout<<b.end_price<<std::endl;
-      }
-    
-    auto con = db::code_connection(code,day_db);
-    //db::inserter<stock_base> in(con);
-    //std::copy(std::begin(sbs) ,std::end(sbs) , std::begin(in));
+    auto sbs =depot::select_future_day(code.code, begin, end);
+
+    db::inserter<future::day> in(con);
+    std::copy(std::begin(sbs) ,std::end(sbs) , std::begin(in));
     using namespace std::chrono_literals;
     std::this_thread::sleep_for(3s);
     //count++;
@@ -198,16 +198,16 @@ void load_save()
 }
 
 //std::list<stock_base> select_stock_base(stock_code  const& sc, long day)
-std::list<stock_base> select_stock_base()
+std::list<stock::minute> select_stock_base()
 {
   auto codes = db::select_kospi_200();
   int count = 0;
-  std::list<stock_base> result;
+  std::list<stock::minute> result;
   for(auto sc : codes)
   {
     //std::cout<<sc.code<<std::endl;
-    auto con = db::code_connection(sc);
-    auto _ = db::selector<stock_base>(con ,db::query( ""));
+    auto con = db::code_connection(sc,stock_db);
+    auto _ = db::selector<stock::minute>(con ,db::query( ""));
     int c = 0;
     std::for_each(std::begin(_) , std::end(_) , [&](auto const&v)
 		  {
@@ -228,10 +228,6 @@ std::list<stock_base> select_stock_base()
   return result;
 }
 
-auto print = [](stock_base sv)
-{
-  
-};
 
 #include <boost/range.hpp>
 #include <boost/range/algorithm.hpp>
@@ -239,8 +235,8 @@ void test()
 {
   auto codes = db::select_kospi_200();
   auto sc = *std::begin(codes);
-  auto con = db::code_connection(sc);
-  auto select = db::selector<stock_base>(con ,db::query( ""));
+  auto con = db::code_connection(sc,stock_db);
+  auto select = db::selector<stock::minute>(con ,db::query( ""));
   using namespace boost;
   using namespace boost::range;
   auto end = boost::end(select);

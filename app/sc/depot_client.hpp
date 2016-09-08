@@ -7,7 +7,8 @@
 #include "stock_query.hpp"
 
 
-#include "../stock_base.hpp"
+#include "../stock.hpp"
+#include "../future.hpp"
 #include "../stock_code.hpp"
 
 struct depot_client
@@ -39,7 +40,7 @@ struct depot_client
   }
 
   
-  std::list<stock_base> select_stock_min(std::string const& code, std::string const& begin, std::string const& end)
+  std::list<stock::minute> select_stock_min(std::string const& code, std::string const& begin, std::string const& end)
   {
     std::cout << "select stock min run " << std::endl;
     stock_query sq;
@@ -48,10 +49,10 @@ struct depot_client
     sq.code = code;
 
     std::cout << " query  code " << sq.code << " begin " << sq.begin << " " << sq.end << std::endl;
-    return request<stock_query, std::list<stock_base>>(req_list::select_stock_base, sq);
+    return request<stock_query, std::list<stock::minute>>(req_list::select_stock_min, sq);
   }
 
-  std::list<stock_base> select_stock_day(std::string const& code, std::string const& begin, std::string const& end)
+  std::list<stock::day> select_stock_day(std::string const& code, std::string const& begin, std::string const& end)
   {
     std::cout << "select stock  day run " << std::endl;
     stock_query sq;
@@ -60,11 +61,11 @@ struct depot_client
     sq.code = code;
 
     std::cout << " query  code " << sq.code << " begin " << sq.begin << " " << sq.end << std::endl;
-    return request<stock_query, std::list<stock_base>>(req_list::select_stock_base_day, sq);
+    return request<stock_query, std::list<stock::day>>(req_list::select_stock_day, sq);
   }
 
 
-  std::list<stock_base> select_future_day(std::string const& code, std::string const& begin, std::string const& end)
+  std::list<future::day> select_future_day(std::string const& code, std::string const& begin, std::string const& end)
   {
     std::cout << "select stock base day run " << std::endl;
     stock_query sq;
@@ -73,7 +74,7 @@ struct depot_client
     sq.code = code;
 
     std::cout << " query  code " << sq.code << " begin " << sq.begin << " " << sq.end << std::endl;
-    return request<stock_query, std::list<stock_base>>(req_list::select_stock_base_future_day, sq);
+    return request<stock_query, std::list<future::day>>(req_list::select_future_day, sq);
   }
 
 
@@ -94,7 +95,7 @@ struct depot_client
 
 namespace depot {
 
-  std::list<stock_base> select_stock_min(std::string const& code
+  std::list<stock::minute> select_stock_min(std::string const& code
 					  ,std::string const& begin
 					  ,std::string const& end)
   {
@@ -103,7 +104,7 @@ namespace depot {
   }
 
 
-  std::list<stock_base> select_stock_base_day(std::string const& code
+  std::list<stock::day> select_stock_day(std::string const& code
 					      ,std::string const& begin
 					      ,std::string const& end)
   {
@@ -111,7 +112,7 @@ namespace depot {
     return cl.select_stock_day(code , begin, end);
   }
 
-  std::list<stock_base> select_stock_base_future_day(std::string const& code
+  std::list<future::day> select_future_day(std::string const& code
 					      ,std::string const& begin
 					      ,std::string const& end)
   {

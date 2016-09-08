@@ -14,9 +14,9 @@ namespace db {
   struct code_con_impl : mongo::connection 
   {
     std::string code ;
-    code_con_impl(std::string db_con , std::string const& sc):mongo::connection(db_con,"stock")
-							    ,code(sc)
-    {}
+    // code_con_impl(std::string db_con , std::string const& sc):mongo::connection(db_con,"stock")
+    // 							    ,code(sc)
+    // {}
 
     code_con_impl(std::string db_con , std::string const& sc , std::string db_name):mongo::connection(db_con,db_name)
 							    ,code(sc)
@@ -26,10 +26,10 @@ namespace db {
     ~code_con_impl(){}
   };
   
-  std::shared_ptr<code_con_impl> code_connection(stock_code const&sc)
-  {
-    return std::make_shared<code_con_impl>(db_connection_string , sc.code);
-  }
+  // std::shared_ptr<code_con_impl> code_connection(stock_code const&sc)
+  // {
+  //   return std::make_shared<code_con_impl>(db_connection_string , sc.code);
+  // }
 
   std::shared_ptr<code_con_impl> code_connection(stock_code const&sc,std::string db_name)
   {
@@ -42,10 +42,10 @@ namespace db {
   }
 
   
-  std::shared_ptr<code_con_impl> code_connection(code const&sc)
-  {
-    return std::make_shared<code_con_impl>(db_connection_string , sc);
-  }
+  // std::shared_ptr<code_con_impl> code_connection(code const&sc)
+  // {
+  //   return std::make_shared<code_con_impl>(db_connection_string , sc);
+  // }
 
 
   
@@ -102,6 +102,10 @@ namespace db {
     *it = t;
     it++;
   }
-  
 
+  template<typename T>
+  void remove_table(std::shared_ptr<code_con_impl> con)
+  {
+    mongo::remove_table<T>(con , con->code);
+  }
 }

@@ -3,7 +3,7 @@
 #include <boost/optional.hpp>
 #include "db.hpp"
 #include "stock_code_hana.hpp"
-#include "stock_base_hana.hpp"
+#include "stock_hana.hpp"
 
 #include <boost/uuid/uuid.hpp>
 #include <boost/uuid/uuid_generators.hpp>
