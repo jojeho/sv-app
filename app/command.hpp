@@ -10,6 +10,44 @@
 #include "future_hana.hpp"
 #include "db_command.hpp"
 
+
+auto load_future_mintue=[](auto f_day, auto codes)
+{
+  int size = 5;
+  for(auto const& code : codes)
+    {
+      auto day = f_day;
+      for(int i = 0 ; i < 6 ; ++i)
+	{
+	  auto begin = std::to_string(day);
+	  auto end   = std::to_string(day+size);
+	  std::cout<<begin<<" "<<end<<std::endl;
+
+	  try{
+	    std::cout<<"current code "<<code.code
+		     <<" day "<<begin<<" "<<end
+		     <<std::endl;
+	    auto sbs =depot::select_future_min(code.code, begin, end);
+	    auto con = db::code_connection(code,future_db);
+	    db::inserter<future::minute> in(con);
+	    std::copy(std::begin(sbs) ,std::end(sbs) , std::begin(in));
+	    using namespace std::chrono_literals;
+	    std::this_thread::sleep_for(3s);
+	    //count++;
+	  }catch(std::exception & e)
+	    {
+	      std::cout<<"fail to code "<<code.code<<" continue"<<std::endl;
+	      using namespace std::chrono_literals;
+	      std::this_thread::sleep_for(3s);
+	    }
+
+	  day = day+size+1;
+	}
+
+    }
+};
+
+
 void load_stock_code()
 {
   auto codes =depot::select_stock_code();
@@ -139,6 +177,7 @@ auto load_code=[](auto f_day, auto codes)
     }
 };
 
+
 void load_save()
 {
   std::string begin ,  end;
@@ -203,6 +242,36 @@ void load_save()
     }
 
   std::cout<<" total update count "<<sum<<std::endl;
+}
+
+
+
+void load_future_save()
+{
+  std::string begin ,  end;
+  ///begin ="20160701";
+  //end  = "20160731";
+  //db::day_query(begin , end);
+  auto codes = load_future_code();
+  //auto f = std::find_if(std::begin(codes) ,std::end(codes) , [](auto const&v){ return v.code == "A033920";});
+  //yef++;
+  //codes.erase(std::begin(codes) , f);
+  //std::cout<<std::begin(codes)->code<<std::endl;
+  //exit(0);
+  
+  std::cout<<"all size "<<codes.size()<<std::endl;
+  int count = 0;
+  std::vector<int> days(31);
+  std::iota(std::begin(days) , std::end(days) , 20160601);
+
+  long f_day = 20160801;
+  f_day = 20160601;
+  load_future_mintue(f_day ,codes);
+  f_day = 20160701;
+  load_future_mintue(f_day ,codes);
+  f_day = 20160801;
+  load_future_mintue(f_day ,codes);
+  std::cout<<" total update count "<<codes.size()<<std::endl;
 }
 
 //std::list<stock_base> select_stock_base(stock_code  const& sc, long day)

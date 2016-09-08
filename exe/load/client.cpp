@@ -55,6 +55,7 @@ void day_load()
   
 }
 
+
 void day_futrue_load()
 {
   std::string f_day = "20160701";
@@ -74,7 +75,8 @@ void day_futrue_load()
 
 int main(int argc , char* argv[])
 {
-  day_load();
+  //day_load();
+  load_future_save();
   ////load_future_code();
   //day_futrue_load();
   //copy();

@@ -25,6 +25,7 @@ struct depot_handler
 namespace req_list {
 
   const std::string select_stock_min = "select_stock_min";
+  const std::string select_future_min = "select_future_min";
   const std::string select_stock_code = "select_stock_code";
   const std::string select_future_code = "select_future_code";
   const std::string select_stock_day = "select_stock_day";

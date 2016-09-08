@@ -52,6 +52,20 @@ struct depot_client
     return request<stock_query, std::list<stock::minute>>(req_list::select_stock_min, sq);
   }
 
+
+  std::list<future::minute> select_future_min(std::string const& code, std::string const& begin, std::string const& end)
+  {
+    std::cout << "select stock min run " << std::endl;
+    stock_query sq;
+    sq.begin = boost::lexical_cast<long>(begin);
+    sq.end = boost::lexical_cast<long>(end);
+    sq.code = code;
+
+    std::cout << " query  code " << sq.code << " begin " << sq.begin << " " << sq.end << std::endl;
+    return request<stock_query, std::list<future::minute>>(req_list::select_future_min, sq);
+  }
+
+  
   std::list<stock::day> select_stock_day(std::string const& code, std::string const& begin, std::string const& end)
   {
     std::cout << "select stock  day run " << std::endl;
@@ -103,6 +117,15 @@ namespace depot {
     return cl.select_stock_min(code , begin, end);
   }
 
+  std::list<future::minute> select_future_min(std::string const& code
+					  ,std::string const& begin
+					  ,std::string const& end)
+  {
+    depot_client cl;
+    return cl.select_future_min(code , begin, end);
+  }
+
+  
 
   std::list<stock::day> select_stock_day(std::string const& code
 					      ,std::string const& begin
