@@ -66,17 +66,19 @@ auto const load=[](auto begin  , auto end,auto code)
 auto const load_day=[](auto begin  , auto end,auto code)
 {
   try{
-    std::cout<<"current code remove and create"<<code.code
+    std::cout<<"current code remove "<<code.code
 	     <<" day "<<begin<<" "<<end
 	     <<std::endl;
     auto con = db::code_connection(code,stock_db);
     try
       {
 	db::remove_table<stock::day>(con);
+
       }catch(std::exception & e)
       {
-	
+	std::cout<<"no remove"<<std::endl;
       }
+    return ;
     auto sbs =depot::select_stock_day(code.code, begin, end);
     db::inserter<stock::day> in(con);
     
