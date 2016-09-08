@@ -16,10 +16,10 @@ namespace future {
                 long volume;
                 long money;
                 long day_end_price;
-				long basis;
-				long delta;
-				long gamma;
-				long theta;
+				double basis;
+				double delta;
+				double gamma;
+				double theta;
 
                 template<typename Archive>
                 void serialize(Archive & ar, unsigned int version)
@@ -102,9 +102,9 @@ BOOST_FUSION_ADAPT_STRUCT(
                 (long, volume)
                 (long, money)
                 (long, fixed_day)
-                (long ,fixed_r)
-                (long ,rotate)
-                (long ,bidr_r)
+                (double ,fixed_r)
+                (double ,rotate)
+                (double ,bidr_r)
                 (long, last_day)
         )
 
