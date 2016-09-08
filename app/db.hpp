@@ -33,11 +33,22 @@ namespace db {
 
   std::shared_ptr<code_con_impl> code_connection(stock_code const&sc,std::string db_name)
   {
-    return std::make_shared<code_con_impl>(db_connection_string , sc.code,db_name);
+    std::string table_name;
+    table_name = sc.code;
+    if(table_name.find("A") == std::string::npos)
+      {
+	table_name ="F" +  table_name;
+      }
+    return std::make_shared<code_con_impl>(db_connection_string , table_name,db_name);
   }
 
   std::shared_ptr<code_con_impl> code_connection(code const&sc,std::string db_name)
   {
+    std::string table_name = sc;
+    if(table_name.find("A") == std::string::npos)
+      {
+	table_name = "F" + table_name;
+      }
     return std::make_shared<code_con_impl>(db_connection_string , sc,db_name);
   }
 

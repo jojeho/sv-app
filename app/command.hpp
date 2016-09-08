@@ -29,6 +29,8 @@ auto load_future_mintue=[](auto f_day, auto codes)
 		     <<std::endl;
 	    auto sbs =depot::select_future_min(code.code, begin, end);
 	    auto con = db::code_connection(code,future_db);
+
+	    std::cout<<"load size "<<sbs.size()<<std::endl;
 	    db::inserter<future::minute> in(con);
 	    std::copy(std::begin(sbs) ,std::end(sbs) , std::begin(in));
 	    using namespace std::chrono_literals;

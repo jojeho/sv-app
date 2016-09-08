@@ -57,9 +57,9 @@ namespace future {
     long volume;
     long money;
     long fixed_day;
-    long fixed_r;
-    long rotate;
-    long bid_r;
+    double fixed_r;
+    double rotate;
+    double bid_r;
     long last_day;
 
 
@@ -102,6 +102,10 @@ BOOST_FUSION_ADAPT_STRUCT(
                           (long , volume)
                           (long , money)
                           (long , day_end_price)
+			  (double , basis)
+			  (double , delta)
+			  (double , gamma)
+			  (double , theta)
                           )
 
 BOOST_FUSION_ADAPT_STRUCT(
