@@ -1,3 +1,5 @@
 add_subdirectory(load)
 add_subdirectory(gp)
 add_subdirectory(graph)
+add_subdirectory(rtime)
+add_subdirectory(bid)

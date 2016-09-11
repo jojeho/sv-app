@@ -12,6 +12,10 @@ const std::string  common_db = "common";
 const std::string  phase_db = "phase";
 const std::string  stock_db = "stock";
 const std::string  future_db = "future";
+const std::string  rtime_db = "rtime";
+const std::string  rule_db = "rule";
+
+enum bid_event{ buy_order , sell_order};
 
 static std::string load_host()  
 {
@@ -25,13 +29,13 @@ static std::string load_port()
   // return load_port_;
 }
 
-static std::string base_host()
+static std::string rtime_host()
 {
   return  "192.168.10.101";
   //return base_host_;
 }
 
-static std::string base_port()
+static std::string rtime_port()
 {
   return "10000";
   //return base_port_;

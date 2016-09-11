@@ -46,7 +46,7 @@ void out(gp const& r , std::vector<stock_base> const&v = std::vector<stock_base>
 
   if(v.size() != 0)
     {
-      data::one r ;
+      Data::one r ;
       std::transform(std::begin(v), std::end(v) , std::back_inserter(r),
 		     [](auto const&v)
 		     {

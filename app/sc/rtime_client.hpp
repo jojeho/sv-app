@@ -1,18 +1,16 @@
 #pragma once
+#include "serialize.hpp"
 
 struct rtime_client
 {
-    std::unique_ptr<jeho::network::dump::client> client_;
-	
-    rtime_client()
-    {
-       auto con = std::make_shared<jeho::network::connection>(base_host(), base_port());
-       client_ = std::make_unique<jeho::network::dump::client>(con);
-    }
+  std::shared_ptr<jeho::network::connection> con
+  rtime_client():con(std::make_shared<jeho::network::connection>(base_host() , base_port()))
+  {}
 
-    template<typename T>
-    void send(T const&t)
-    {
-
-    }
+  void send(stock::minute const&m)
+  {
+    jeho::network::dump::clinet c(con);
+    auto result =out<stock::minute>(m);
+    c.send(result);
+  }
 };
