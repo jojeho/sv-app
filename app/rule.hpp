@@ -15,6 +15,8 @@ struct rule
 
   bool on;
   int start_time ;
+
+  rule():on(false){}
   
   boost::optional<order> operator()(std::list<stock::minute> const&m)
   {
@@ -23,7 +25,7 @@ struct rule
       {
 	if((*cls)(*v))
 	  {
-	    start_time = mc.begin;
+	    start_time = mc.end;
 	    on = true;
 	    return order{ bid_event::buy_order , code};
 	  }

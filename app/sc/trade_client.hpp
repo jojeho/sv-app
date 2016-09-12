@@ -6,7 +6,7 @@ struct trade_client
 {
   std::shared_ptr<jeho::network::connection> con;
 
-  trade_client():con(std::make_shared<jeho::network::connection>(base_host() , base_port()))
+  trade_client():con(std::make_shared<jeho::network::connection>(trade_host() , trade_port()))
   {}
 
   void send(order const&m)

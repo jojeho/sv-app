@@ -53,7 +53,6 @@ namespace stock {
     double fixed_r;
     double rotate;
     double bid_r;
-    long last_day;
     long day_end_price;
 
     std::string table_name() const
@@ -76,7 +75,6 @@ namespace stock {
       ar & fixed_r;
       ar & rotate;
       ar & bid_r;
-      ar & last_day;
       ar & day_end_price;
     }
   };
@@ -110,7 +108,6 @@ BOOST_FUSION_ADAPT_STRUCT(
 			  (double, fixed_r)
 			  (double, rotate)
 			  (double ,bidr_r)
-			  (long, last_day)
 			  (long , day_end_price)
 			  )
 

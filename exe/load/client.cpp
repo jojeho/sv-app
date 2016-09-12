@@ -16,27 +16,31 @@ const auto sort_day = [](auto const& l , auto const&r)
 			return l.current_day  < r.current_day ;
 		      };
 
-const std::string temp_code_db = "stock";
+const std::string temp_code_db = "stock2";
 
 void copy()
 {
   auto codes = db::select_kospi_200();
   for(auto code : codes)
     {
-      auto con = db::code_connection(code , "stock2");
+      auto con = db::code_connection(code , stock_db);
       std::stringstream s;
       s<<" code = "<<code.code;
       std::cout<<s.str()<<std::endl;
-      auto _ = db::selector<stock::minute>(con , db::query(s.str()));
-      std::vector<stock::minute> all;
+      auto _ = db::selector<stock::day>(con , db::query(s.str()));
+      std::vector<stock::day> all;
       std::copy(std::begin(_) ,std::end(_) , std::back_inserter(all));
       std::cout<<"source size "<<all.size()<<" ";
-      std::sort(std::begin(all) ,std::end(all), sort_day);
-      auto last = std::unique(std::begin(all) ,std::end(all) , equal_day);
-      all.erase(last , std::end(all));
-      std::cout<<"unique size "<<all.size()<<std::endl;
+
+      //db::remove_table<stock::day>(con);
+
+      //std::sort(std::begin(all) ,std::end(all), sort_day);
+      //auto last = std::unique(std::begin(all) ,std::end(all) , equal_day);
+      //all.erase(last , std::end(all));
+      //std::cout<<"unique size "<<all.size()<<std::endl;
       auto con2 = db::code_connection(code,temp_code_db);
-      auto in = db::inserter<stock::minute>(con2);
+      
+      auto in = db::inserter<stock::day>(con2);
       std::copy(std::begin(all) ,std::end(all) , std::begin(in));
     }
 }
@@ -76,10 +80,10 @@ void day_futrue_load()
 int main(int argc , char* argv[])
 {
   //day_load();
-  load_future_save();
+  //load_future_save();
   ////load_future_code();
   //day_futrue_load();
-  //copy();
+  copy();
   //load_save();
   //select_stock_base();
   //load_stock_code();

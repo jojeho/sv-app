@@ -29,8 +29,15 @@ std::map<code , rule> make_rules()
     {
       for(auto code : codes)
 	{
+	  dvec::option opt;
+	  opt.f_names +=property_out(dvec::property::phase{ 6 , 4});
+	  opt.begin = 0;
+	  opt.end = 80;
+	  auto vm = dvec::make_machine(opt);
+
 	  rule r ;
 	  r.code = code.code;
+	  r.mc = vm;
 	  r.sp = sell::make_policy(property_out(sell::property::simple{ "simple"}));
 	  r.cls = std::make_shared<classifier::interval>(*first);
 	  result += std::make_pair(code.code , r);

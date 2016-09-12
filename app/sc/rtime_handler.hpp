@@ -9,18 +9,33 @@ struct rtime_handler
   {
     std::string text(std::begin(data),std::end(data));
     auto result = in<stock::minute>(text);
+    
+    try
+      {
+	auto host  =  bid_host();
+	auto port  =  bid_port();
+	auto con = std::make_shared<jeho::network::connection>(host , port);
+	jeho::network::dump::client c(con);
 
-    auto host  =  bid_host();
-    auto port  =  bid_port();
-    auto con = std::make_shared<jeho::network::connection>(host , port);
-    jeho::network::dump::client c(con);
-    c.send(text);
+	//auto t = out<stock::minute>(result);
+	//std::cout<<t<<std::endl;
+	//std::string new_text(std::begin(data), std::end(data));
+	//std::string text = "xxxxxxxxxxxxxxx";
+	c.send(text);
+      }catch(std::exception e)
+      {
+	std::cout<<"fail to send bid"<<std::endl;
+      }
+
     {
-      auto con = db::code_connection(result.code , rtime_db);
-      auto in = db::inserter<stock::minute>(con);
-      auto it = std::begin(in);
-      *it = result;
-      it++;
+      if(result.time >= 900)
+	{
+	  auto con = db::code_connection(result.code , rtime_db);
+	  auto in = db::inserter<stock::minute>(con);
+	  auto it = std::begin(in);
+	  *it = result;
+	  it++;
+	}
     }
   }
 };
