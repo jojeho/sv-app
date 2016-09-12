@@ -60,7 +60,6 @@ namespace future {
     double fixed_r;
     double rotate;
     double bid_r;
-    long last_day;
 
 
     std::string table_name() const
@@ -85,7 +84,6 @@ namespace future {
       ar & fixed_r;
       ar & rotate;
       ar & bid_r;
-      ar & last_day;
     }
   };
 }
@@ -122,7 +120,6 @@ BOOST_FUSION_ADAPT_STRUCT(
 			  (double ,fixed_r)
 			  (double ,rotate)
 			  (double ,bidr_r)
-			  (long, last_day)
 			  )
 
 

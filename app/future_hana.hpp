@@ -33,6 +33,5 @@ BOOST_HANA_ADAPT_STRUCT(future::day ,
 			fixed_day,
 			fixed_r,
 			rotate,
-			bid_r,
-			last_day
+			bid_r
 			);
