@@ -29,9 +29,9 @@ BOOST_HANA_ADAPT_STRUCT(future::day ,
 			low_price ,
 			end_price,
 			volume ,
-			money,
-			fixed_day,
-			fixed_r,
-			rotate,
-			bid_r
+			money
+			//fixed_day,
+			//fixed_r,
+			//rotate,
+			//bid_r
 			);

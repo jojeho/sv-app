@@ -19,6 +19,7 @@ LINK_LIBRARIES(bsoncxx)
 LINK_LIBRARIES(pthread)
 LINK_LIBRARIES(boost_thread)
 LINK_LIBRARIES(boost_serialization)
+LINK_LIBRARIES(boost_date_time)
 
 add_executable(client  client.cpp)
 

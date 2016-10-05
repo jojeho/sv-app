@@ -56,10 +56,6 @@ namespace future {
     long high_price;
     long volume;
     long money;
-    long fixed_day;
-    double fixed_r;
-    double rotate;
-    double bid_r;
 
 
     std::string table_name() const
@@ -67,23 +63,17 @@ namespace future {
       return "day";
     }
 
-
-    
     template<typename Archive>
     void serialize(Archive & ar, unsigned int version)
     {
       ar & code;
-      ar & low_price;
-      ar & high_price;
+      ar & current_day;
       ar & start_price;
       ar & end_price;
+      ar & low_price;
+      ar & high_price;
       ar & volume;
       ar & money;
-      ar & current_day;
-      ar & fixed_day;
-      ar & fixed_r;
-      ar & rotate;
-      ar & bid_r;
     }
   };
 }
@@ -116,10 +106,6 @@ BOOST_FUSION_ADAPT_STRUCT(
 			  (long, end_price)
 			  (long, volume)
 			  (long, money)
-			  (long, fixed_day)
-			  (double ,fixed_r)
-			  (double ,rotate)
-			  (double ,bidr_r)
 			  )
 
 

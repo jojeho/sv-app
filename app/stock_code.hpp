@@ -24,6 +24,18 @@ struct stock_code
   }
 };
 
+auto bind_code =[](auto c)
+		{
+		  return c.code;
+		};
+
+
+auto bind_f_code =[](auto c)
+		{
+		  return  "F" + c.code;
+		};
+
+
 BOOST_FUSION_ADAPT_STRUCT(
 			  stock_code ,
 			  (code , code)

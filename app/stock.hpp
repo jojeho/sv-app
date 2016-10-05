@@ -126,3 +126,4 @@ const auto bind_end_price=[](auto const&v)
 {
   return v.end_price;
 };
+

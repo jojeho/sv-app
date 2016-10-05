@@ -9,11 +9,14 @@ using date = boost::gregorian::date;
 
 const std::string  db_connection_string ="mongodb://localhost:27017";
 const std::string  common_db = "common";
-const std::string  phase_db = "phase";
 const std::string  stock_db = "stock";
 const std::string  future_db = "future";
 const std::string  rtime_db = "rtime";
 const std::string  rule_db = "rule";
+const std::string  vec_db = "vec";
+const std::string  stats_db = "stats";
+const std::string  KOSP_FUTURE_CODE = "F10100";
+const std::string  KOSPI_CODE ="U001";
 
 enum bid_event{ buy_order , sell_order};
 
@@ -68,6 +71,12 @@ static std::string bid_port()
 }
 
 
-
+struct period
+{
+  long first;
+  long second;
+  period(long b, long e):first(b) ,second(e)
+  {}
+};
 
 

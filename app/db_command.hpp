@@ -12,6 +12,11 @@
 
 namespace db {
 
+  const auto bind_current_day =[](auto const&v)
+			       {
+				 return v.current_day;
+			       };
+
   using namespace boost::assign;
   const std::string kospi_200 = "kospi_200";
   boost::optional<stock_code> find_stock_code(std::string name)
@@ -30,6 +35,18 @@ namespace db {
     std::copy(std::begin(s) , std::end(s) , std::back_inserter(result));
     return result;
   }
+
+  std::list<code> select_kospi_200_only_code()
+  {
+    auto cs = select_kospi_200();
+    std::list<code> result;
+    for(auto & c : cs)
+      {
+	result +=c.code;
+      }
+    return result;
+  }
+    
 
   struct code_range
   {
@@ -163,6 +180,19 @@ namespace db {
       }
 
     return result;
+  };
+
+  auto all_days =[]()
+  {
+    auto con = db::code_connection(KOSPI_CODE , stock_db);
+    std::stringstream s;
+    s<<"all";
+    auto _ = db::selector<stock::day>(con , db::query(s.str()));
+    std::list<long> days;
+    std::transform(std::begin(_),std::end(_)
+		   ,std::back_inserter(days)
+		   ,bind_current_day);
+    return days;
   };
 
 }
