@@ -9,7 +9,7 @@ using namespace boost::assign;
 
 using handler = bid_handler;
 using session = jeho::network::dump::session<handler> ;
-using server = jeho::network::server<session>;
+using server  = jeho::network::server<session>;
 using connection = jeho::network::connection;
 
 
@@ -42,9 +42,8 @@ std::map<code , rule> make_rules()
 	  r.cls = std::make_shared<classifier::interval>(*first);
 	  result += std::make_pair(code.code , r);
 	}
-      
     }
-  
+
   std::cout<<"rule size "<<result.size()<<std::endl;
   return result;
 }
@@ -59,3 +58,4 @@ int main()
   server s(con);
   return 1;
 }
+

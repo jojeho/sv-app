@@ -3,7 +3,7 @@
 struct order
 {
   int type;
-  code code;
+  std::string code;
 
   template<typename Archive>
   void serialize(Archive & ar, unsigned int version)

@@ -38,7 +38,7 @@ auto bind_f_code =[](auto c)
 
 BOOST_FUSION_ADAPT_STRUCT(
 			  stock_code ,
-			  (code , code)
+			  (std::string , code)
 			  (std::string , full_code)
 			  (std::string , name)
 			  (int , market)

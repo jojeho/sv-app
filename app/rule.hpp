@@ -46,4 +46,5 @@ struct rule
 
     return boost::optional<order>();
   }
+
 };

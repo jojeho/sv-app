@@ -15,9 +15,9 @@ void load_stock_code()
 {
   auto codes =depot::select_stock_code();
   std::cout<<" insert code size "<<codes.size()<<std::endl;
-  //auto con = db::connection(common_db);
-  //auto in  = db::inserter<stock_code>(con);
-  //std::copy(std::begin(codes) , std::end(codes) , std::begin(in));
+  auto con = db::connection(common_db);
+  auto in  = db::inserter<stock_code>(con);
+  std::copy(std::begin(codes) , std::end(codes) , std::begin(in));
 }
 
 std::list<stock_code> load_future_code()
@@ -35,54 +35,38 @@ std::list<stock_code> load_future_code()
   return codes;
 }
 
-std::list<code> load_future_code_only()
+std::list<std::string> load_future_code_only()
 {
   auto all_codes = load_future_code();
-  std::list<code> codes;
+  std::list<std::string> codes;
   std::transform(std::begin(all_codes)
 		 ,std::end(all_codes)
 		 ,std::back_inserter(codes)
 		 ,bind_code);
-
   return codes;
 }
 
-auto const load_stock_day=[](auto db_name , std::list<std::pair<std::string,std::string>> const& days
-			     )
+auto const load_stock_day=[](auto db_name , std::list<std::pair<std::string,std::string>> const& days )
 {
-  auto codes=db::select_kospi_200_only_code();
-
+  //auto codes=db::select_kospi_200_only_code();
+  auto codes=db::select_all_only_code();
+  codes.push_back(KOSPI_CODE);//KOSPI_CODE;);
   for(auto code : codes)
     {
       auto f_day = std::begin(days);
-      {
-	auto con = db::code_connection(code,db_name);
-	if(remove)
-	  {
-	    try
-	      {
-		db::remove_table<stock::day>(con);
-
-	      }catch(std::exception & e)
-	      {
-		std::cout<<"no remove"<<std::endl;
-	      }
-	  }
-      }
-
       while(f_day != std::end(days))
 	{
 	  auto begin = (f_day->first);
 	  auto end   = (f_day->second);
 	  try{
-	    std::cout<<"current code remove "<<code
+
+	    std::cout<<"current code "<<code
 		     <<" day "<<begin<<" "<<end
 		     <<std::endl;
-
+	    	    
+            
 	    auto sbs =depot::select_stock_day(code, begin, end);
 	    auto con = db::code_connection(code,db_name);
-
-	
 	    db::inserter<stock::day> in(con);
 
 	    for(auto b :sbs)
@@ -106,16 +90,13 @@ auto const load_stock_day=[](auto db_name , std::list<std::pair<std::string,std:
 
 	}
     }
-
 };
 
-auto const load_future_day=[](std::string db_name , std::list<std::pair<std::string,std::string>> const& days
+auto const load_future_day=[](std::string db_name
+			      ,std::list<std::pair<std::string,std::string>> const& days
 			      )
 {
   auto all_codes = load_future_code_only();
-
-  
-  
   for(auto code : all_codes)
     {
       auto f_code = "F" + code;
@@ -141,13 +122,13 @@ auto const load_future_day=[](std::string db_name , std::list<std::pair<std::str
 	    db::inserter<future::day> in(con);
 	    std::copy(std::rbegin(sbs) ,std::rend(sbs) , std::begin(in));
 	    using namespace std::chrono_literals;
-	    std::this_thread::sleep_for(3s);
+	    std::this_thread::sleep_for(1s);
 	    //count++;
 	  }catch(std::exception & e)
 	    {
 	      std::cout<<"fail to code "<<code<<" continue"<<std::endl;
 	      using namespace std::chrono_literals;
-	      std::this_thread::sleep_for(3s);
+	      std::this_thread::sleep_for(1s);
 	    }
 
 	  f_day++;
@@ -156,13 +137,16 @@ auto const load_future_day=[](std::string db_name , std::list<std::pair<std::str
 
 };
 
-void load_stock_minute(std::string db_name
-		       , std::list<std::pair<std::string,std::string>> const& days)
+void load_stock_minute(std::list<std::pair<std::string,std::string>> const& days)
 {
   auto codes = db::select_kospi_200_only_code();
+  //codes.clear();
+  codes.push_back(KOSPI_CODE);
+  //codes.resize(30);
+  
   int count = 0;
-  auto first = std::begin(codes);
   int sum =0;
+  auto first = std::begin(codes);
   while(first != std::end(codes))
     {
       auto code = *first;
@@ -171,29 +155,35 @@ void load_stock_minute(std::string db_name
 	{
 	  auto begin = (f_day->first);
 	  auto end   = (f_day->second);
+	  
 	  try{
 	    std::cout<<"current code "<<code
 		     <<" day "<<begin<<" "<<end
 		     <<std::endl;
 	    auto sbs =depot::select_stock_min(code, begin, end);
-	    auto con = db::code_connection(code,db_name);
+	    auto con = db::code_connection(code,minute_db);
 	    db::inserter<stock::minute> in(con);
+            if(sbs.size() !=0)
+              {
+                sum++;
+              }
 	    std::copy(std::rbegin(sbs) ,std::rend(sbs) , std::begin(in));
 	    using namespace std::chrono_literals;
-	    std::this_thread::sleep_for(3s);
+	    std::this_thread::sleep_for(1s);
 	    //count++;
 	  }catch(std::exception & e)
 	    {
 	      std::cout<<"fail to code "<<code<<" continue"<<std::endl;
 	      using namespace std::chrono_literals;
-	      std::this_thread::sleep_for(3s);
+	      std::this_thread::sleep_for(1s);
 	    }
+	  f_day++;	  
 	}
 
-      f_day++;
+      first++;
     }
 
-  std::cout<<" total update count "<<sum<<std::endl;
+  std::cout<<" total update stock count "<<sum<<std::endl;
 }
 
 
@@ -231,13 +221,13 @@ void load_future_minute(std::string db_name
 	    db::inserter<future::minute> in(con);
 	    std::copy(std::rbegin(sbs) ,std::rend(sbs) , std::begin(in));
 	    using namespace std::chrono_literals;
-	    std::this_thread::sleep_for(3s);
+	    std::this_thread::sleep_for(1s);
 	    //count++;
 	  }catch(std::exception & e)
 	    {
 	      std::cout<<"fail to code "<<code<<" continue"<<std::endl;
 	      using namespace std::chrono_literals;
-	      std::this_thread::sleep_for(3s);
+	      std::this_thread::sleep_for(1s);
 	    }
 
 	  f_day++;

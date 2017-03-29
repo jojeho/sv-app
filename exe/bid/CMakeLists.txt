@@ -21,6 +21,8 @@ LINK_LIBRARIES(boost_thread)
 LINK_LIBRARIES(boost_serialization)
 LINK_LIBRARIES(boost_coroutine)
 
-add_executable(bid  main.cpp)
+#add_executable(bid  main.cpp)
+add_executable(bid  main2.cpp)
+
 
 #add_library(my_dashine SHARED test2.cpp)

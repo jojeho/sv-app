@@ -38,7 +38,7 @@ namespace db {
     return std::make_shared<code_con_impl>(db_connection_string , table_name,db_name);
   }
 
-  std::shared_ptr<code_con_impl> code_connection(code const&sc,std::string db_name)
+  std::shared_ptr<code_con_impl> code_connection(std::string const&sc,std::string db_name)
   {
     std::string table_name = sc;
     return std::make_shared<code_con_impl>(db_connection_string , sc,db_name);
@@ -107,7 +107,7 @@ namespace db {
   {
     mongo::remove_table<T>(con , con->code);
   }
-
+  
   template<typename T>
   void remove_records(std::shared_ptr<mongo::connection> con,db::query const& q)
   {

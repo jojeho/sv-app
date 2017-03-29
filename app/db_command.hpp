@@ -36,17 +36,40 @@ namespace db {
     return result;
   }
 
-  std::list<code> select_kospi_200_only_code()
+
+  std::list<stock_code> select_all()
+  {
+    std::list<stock_code> result;
+    auto con = db::connection(common_db) ;
+    auto s =db::selector<stock_code>(con, db::query("all"));
+    std::copy(std::begin(s) , std::end(s) , std::back_inserter(result));
+    return result;
+  }
+
+  
+  std::list<std::string> select_kospi_200_only_code()
   {
     auto cs = select_kospi_200();
-    std::list<code> result;
+    std::list<std::string> result;
     for(auto & c : cs)
       {
 	result +=c.code;
       }
     return result;
   }
-    
+
+  std::list<std::string> select_all_only_code()
+  {
+    auto cs = select_all();
+    std::list<std::string> result;
+    for(auto & c : cs)
+      {
+	result +=c.code;
+      }
+    return result;
+  }
+
+  
 
   struct code_range
   {

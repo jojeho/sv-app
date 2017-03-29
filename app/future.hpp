@@ -6,7 +6,7 @@
 namespace future {
 
   struct minute {
-    code code;
+    std::string code;
     long current_day;
     long time;
     long start_price;
@@ -48,7 +48,7 @@ namespace future {
 
   struct day
   {
-    code code;
+    std::string code;
     long current_day;
     long start_price;
     long end_price;
@@ -80,7 +80,7 @@ namespace future {
 
 BOOST_FUSION_ADAPT_STRUCT(
                           future::minute,
-                          (code , code)
+                          (std::string , code)
                           (long , current_day)
                           (long , time)
                           (long , start_price)
@@ -98,7 +98,7 @@ BOOST_FUSION_ADAPT_STRUCT(
 
 BOOST_FUSION_ADAPT_STRUCT(
 			  future::day,
-			  (code, code)
+			  (std::string, code)
 			  (long, current_day)
 			  (long, start_price)
 			  (long, high_price)
@@ -106,6 +106,6 @@ BOOST_FUSION_ADAPT_STRUCT(
 			  (long, end_price)
 			  (long, volume)
 			  (long, money)
-			  )
-
+			  
+)
 

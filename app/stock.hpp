@@ -6,7 +6,7 @@
 namespace stock {
 
   struct minute {
-    code code;
+    std::string code;
     long current_day;
     long time;
     long start_price;
@@ -41,7 +41,7 @@ namespace stock {
 
   struct day
   {
-    code code;
+    std::string code;
     long current_day;
     long start_price;
     long end_price;
@@ -54,6 +54,8 @@ namespace stock {
     double rotate;
     double bid_r;
     long day_end_price;
+    long bid;
+    long ask;
 
     std::string table_name() const
     {
@@ -76,13 +78,15 @@ namespace stock {
       ar & rotate;
       ar & bid_r;
       ar & day_end_price;
+      ar & bid;
+      ar & ask;
     }
   };
 }
 
 BOOST_FUSION_ADAPT_STRUCT(
 			  stock::minute,
-			  (code, code)
+			  (std::string, code)
 			  (long, current_day)
 			  (long, time)
 			  (long, start_price)
@@ -96,7 +100,7 @@ BOOST_FUSION_ADAPT_STRUCT(
 
 BOOST_FUSION_ADAPT_STRUCT(
 			  stock::day,
-			  (code, code)
+			  (std::string, code)
 			  (long, current_day)
 			  (long, start_price)
 			  (long, high_price)
@@ -109,6 +113,8 @@ BOOST_FUSION_ADAPT_STRUCT(
 			  (double, rotate)
 			  (double ,bidr_r)
 			  (long , day_end_price)
+                          (long , bid)
+                          (long , ask)
 			  )
 
 // const auto bind_end_price_log=[](auto const&v)
@@ -127,3 +133,62 @@ const auto bind_end_price=[](auto const&v)
   return v.end_price;
 };
 
+const auto bind_low_price=[](auto const&v)
+{
+  return v.low_price;
+};
+
+const auto bind_high_price=[](auto const&v)
+{
+  return v.high_price;
+};
+
+const auto bind_start_price=[](auto const&v)
+{
+  return v.start_price;
+};
+
+
+auto get_volume =[](auto const&v)
+{
+  return v.volume;
+};
+
+auto lt_time =[](auto const&l , auto const&r)
+{
+  return l.time < r.time;
+};
+
+auto lt_time_with =[](auto const&l , auto const&r)
+{
+  return l.time < r;
+};
+
+auto gt_time_with =[](auto const&l , auto const&r)
+{
+  return l.time > r;
+};
+
+auto get_end_price =[](auto const&v)
+{
+  return v.end_price;
+};
+
+auto get_current_day =[](auto const&v)
+{
+  return v.current_day;
+};
+
+
+
+auto eq_current_day
+=[](auto const& i , auto const& day)
+{
+  return i.current_day == day;
+};
+
+auto eq_time
+=[](auto const&i , auto const& time)
+{
+  return i.time == time;
+};

@@ -4,12 +4,13 @@
 #include <boost/date_time.hpp>
 
 //using ptime = std::chrono::system_clock::time_point;
-using code = std::string;
-using date = boost::gregorian::date;
+//using code = std::string;
+//using date = boost::gregorian::date;
 
 const std::string  db_connection_string ="mongodb://localhost:27017";
 const std::string  common_db = "common";
 const std::string  stock_db = "stock";
+const std::string  minute_db = "minute";
 const std::string  future_db = "future";
 const std::string  rtime_db = "rtime";
 const std::string  rule_db = "rule";
@@ -78,5 +79,11 @@ struct period
   period(long b, long e):first(b) ,second(e)
   {}
 };
+
+std::ostream& operator<<(std::ostream& os , period const&p)
+{
+  os<<p.first<<" "<<p.second;
+  return os;
+}
 
 

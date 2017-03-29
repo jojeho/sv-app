@@ -9,7 +9,8 @@ struct rtime_handler
   {
     std::string text(std::begin(data),std::end(data));
     auto result = in<stock::minute>(text);
-    
+    std::cout<<"receive "<<result.code<<" at time "<<result.time<<std::endl;
+
     try
       {
 	auto host  =  bid_host();
@@ -21,16 +22,17 @@ struct rtime_handler
 	//std::cout<<t<<std::endl;
 	//std::string new_text(std::begin(data), std::end(data));
 	//std::string text = "xxxxxxxxxxxxxxx";
-	c.send(text);
+	//c.send(text);
       }catch(std::exception e)
       {
-	std::cout<<"fail to send bid"<<std::endl;
+	//std::cout<<"fail to send bid"<<std::endl;
       }
 
     {
       if(result.time >= 900)
 	{
-	  auto con = db::code_connection(result.code , rtime_db);
+          std::cout<<"insert to db "<<result.code<<" at time "<<result.time<<std::endl;
+      	  auto con = db::code_connection(result.code , rtime_db);
 	  auto in = db::inserter<stock::minute>(con);
 	  auto it = std::begin(in);
 	  *it = result;
