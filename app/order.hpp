@@ -15,3 +15,14 @@ struct order
   
 };
 
+struct days
+{
+	std::list<std::string> codes;
+
+	template<typename Archive>
+	void serialize(Archive & ar, unsigned int version)
+	{
+		ar & codes;
+	}
+};
+
